@@ -1,11 +1,11 @@
 ---
-title:  RDDSL: Register Description DSL
+title:  RDL: Register Description Language
 author: Libor Wagner <libor.wagner@cvut.cz>
 date:   2022-02-03
 ---
 
-# RDDSL: Register Description DSL
+# RDL: Register Description Language
 
-RDDSL is a register description domain specific language used to describe IC register maps and the to generate various outputs.
+RDL is python based DSL for IC register description.
 
 

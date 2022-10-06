@@ -1,5 +1,5 @@
 
-from rddsl import Register, Field
+from rdl import Register, Field
 
 defs = {'asize_b': 8, 'dsize_b': 16}
 
