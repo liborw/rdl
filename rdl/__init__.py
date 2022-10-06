@@ -77,9 +77,26 @@ class Bits(object):
         else:
             super(Bits, self).__setattr__(name, value)
 
-    def get_sorted_fields(self):
+    def get_sorted_fields(self, reserved=False):
         """Get list of fields sorted by the position in the bits list"""
-        return sorted(self.fields.values(), key=lambda x: x.lsb)
+
+        if reserved:
+            fields = []
+
+            last_start = 0
+            reserved_cnt = 0
+
+            for field in sorted(self.fields.values(), key=lambda x: x.lsb):
+
+                space = field.lsb - last_start
+                if space > 0:
+                    fields.append(Field(f"reserved_{reserved_cnt}", lsb = last_start, msb = field.lsb-1))
+                    reserved_cnt += 1
+                fields.append(field)
+                last_start = field.msb + 1
+            return fields
+        else:
+            return sorted(self.fields.values(), key=lambda x: x.lsb)
 
 
 class Field(object):
