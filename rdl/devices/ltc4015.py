@@ -1,9 +1,14 @@
 
-from rdl import Register, Field
+from rdl import Register, Field, Device
 
+
+ltc4015 = Device(name = "LTC4015")
+
+# Default register size
 defs = {'asize_b': 8, 'dsize_b': 16}
 
-regs = [
+# Add all registers
+ltc4015.add_all([
     Register(0x01, value=0, name='VBAT_LO_ALERT_LIMIT', **defs),
     Register(0x02, value=0, name='VBAT_HI_ALERT_LIMIT', **defs),
     Register(0x03, value=0, name='VIN_LO_ALERT_LIMIT', **defs),
@@ -197,4 +202,5 @@ regs = [
     Register(0x48, value=0, name='ICHARGE_BSR', **defs),
     Register(0x4a, value=0, name='MEAS_SYS_VALID', **defs, fields=[
         Field('meas_sys_valid', 0)])
-]
+])
+

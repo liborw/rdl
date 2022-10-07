@@ -1,5 +1,51 @@
 
-from .field import Field
+
+class Field(object):
+    """Field is a named subset of bits."""
+
+    def __init__(self,
+                 name: str,
+                 msb: int,
+                 lsb: int|None = None,
+                 value: int|None = None,
+                 fn=lambda x: x,
+                 unit: str = '',
+                 description: str = '',
+                 fmt: str|None = None):
+        """
+        """
+
+        self.name = name
+        self.msb = msb
+        self.lsb = lsb
+        self._init_value = value
+        self._disp_fn = fn
+        self._parrent : Bits|None = None
+        self.unit = unit
+        self.description = description
+
+        if self.lsb is None:
+            self.lsb = self.msb
+            self.size = 1
+        else:
+            self.size = self.msb - self.lsb + 1
+
+        if not fmt and self.size == 1:
+            self.fmt = 'b'
+        else:
+            self.fmt = fmt
+
+    def get_value(self):
+        if self._parrent:
+            return self._parrent.get_bits(self.msb, self.lsb)
+        # TODO: else
+
+    def set_value(self, value):
+        if self._parrent:
+            self._parrent.set_bits(self.msb, self.lsb, value)
+        # TODO: else
+
+    value = property(get_value, set_value)
 
 
 class Bits(object):
@@ -8,7 +54,7 @@ class Bits(object):
     more fields. Value of a field can be accessed as property of this class.
     """
 
-    def __init__(self, name: str, size_b: int, value: int = 0, fields: list = [], **kvargs):
+    def __init__(self, name: str, size_b: int, value: int = 0, fields: list[Field] = [], **kvargs):
         """
         :param size_b: numbe of bits is the list
         :param name: Name
@@ -21,8 +67,17 @@ class Bits(object):
         self.size_b = size_b
         self.size_B = size_b // 8 + (1 if size_b % 8 > 0 else 0)
 
+        # Add field if no field specifies
+        if len(fields) <= 0:
+            fields = [Field(
+                name = self.name.lower(),
+                msb = self.size_b - 1 ,
+                lsb = 0)]
+
         for field in fields:
             self._add_field(field)
+
+
 
     def _add_field(self, field:Field):
         field._parrent = self
@@ -102,4 +157,5 @@ class Bits(object):
             return fields
         else:
             return sorted(self.fields.values(), key=lambda x: x.lsb)
+
 

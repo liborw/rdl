@@ -1,4 +1,4 @@
-from .bits import Bits
+from rdl import Bits
 
 class Field(object):
     """Field is a named subset of bits."""

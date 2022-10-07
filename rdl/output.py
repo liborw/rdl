@@ -51,7 +51,7 @@ class Output(object):
         """Replace section with given text"""
 
         section = self._sections[name]
-        lines = text.split('\n')
+        lines = text.splitlines(True)
 
         # replace line inside the section
         self._lines = self._lines[:section[0]+1] + lines + self._lines[section[1]:]

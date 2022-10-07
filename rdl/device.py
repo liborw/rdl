@@ -1,6 +1,5 @@
 
-from . import Bits
-from . import Field
+from rdl import Bits
 
 
 class Device(object):
@@ -13,8 +12,12 @@ class Device(object):
         self.bits[bits.name] = bits
         setattr(self, bits.name, bits)
 
-    def get_all(self, cls=(Bits,)) -> list[Bits]:
-        return [b for b in self.bits if isinstance(b, cls)]
+    def add_all(self, lst:list[Bits]):
+        for b in lst:
+            self.add(b)
+
+    def get_all(self, cls=Bits) -> list[Bits]:
+        return [b for b in self.bits.values() if isinstance(b, cls)]
 
 
 

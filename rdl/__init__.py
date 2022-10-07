@@ -1,22 +1,7 @@
 
-from .bits import Bits
-from .field import Field
-
-class Register(Bits):
-    """
-    Representation of a register, it has an address and a value.
-    """
-
-    def __init__(self,
-                 address: int,
-                 value: int,
-                 name: str,
-                 dsize_b: int = 8,
-                 asize_b: int = 8,
-                 fields: list = []):
-        self.address = address
-        self.asize_b = asize_b
-        super(Register, self).__init__(name, value, dsize_b, fields=fields)
+from .base import Bits, Field
+from .register import Register
+from .device import Device
 
 
 class Command(Bits):
